@@ -1,6 +1,6 @@
 import { EventEmitter } from "eventemitter3";
 import config from "../../config";
-import utils from "../utils";
+import delay from "../utils";
 import Person from "./Person";
 
 export default class Planet extends EventEmitter{
@@ -24,16 +24,16 @@ export default class Planet extends EventEmitter{
     }
 
     async populate(){
-        console.log(this.peopleData.length)
         if(this.peopleData.length === 0){
             this.emit(Planet.events.POPULATING_COMPLETE)
             return;
         }
-        await utils.delay(config.populationDelay);
+
+        await delay(config.populationDelay);
         const personData = this.peopleData.shift();
         const person = new Person(personData.name, personData.height, personData.mass)
+        this.population.push(person)
         this.emit(Planet.events.PERSON_BORN, { filmUrls : personData.films})
-        console.log(personData)
         await this.populate();
     }
 }
