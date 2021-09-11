@@ -32,7 +32,7 @@ export default class Planet extends EventEmitter{
         await utils.delay(config.populationDelay);
         const personData = this.peopleData.shift();
         const person = new Person(personData.name, personData.height, personData.mass)
-        this.emit(Planet.events.PERSON_BORN, {filmUrls : personData.films})
+        this.emit(Planet.events.PERSON_BORN, { filmUrls : personData.films})
         console.log(personData)
         await this.populate();
     }
